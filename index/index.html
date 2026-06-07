@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Carlos Jiménez</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<audio id="bgaudio" loop preload="auto">
+  <source src="audio/audio-001.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="mac-win">
+    <div class="mac-titlebar">
+      <div class="mac-dots">
+        <div class="mac-dot red"></div>
+        <div class="mac-dot yellow"></div>
+        <div class="mac-dot green"></div>
+      </div>
+      <span class="mac-title-text">Carlos Jiménez</span>
+    </div>
+    <div class="splash-body">
+      <img id="splash-sig" src="images/img-001.png" draggable="false">
+      <span class="splash-hint">clic para entrar</span>
+    </div>
+    <div class="splash-statusbar">esto no es arte — es un síntoma</div>
+  </div>
+</div>
+
+<div id="desktop"><canvas id="gravity-canvas"></canvas></div>
+<div id="icons"></div>
+<div id="windows"></div>
+
+<div id="audio-widget">
+  <button id="audio-toggle">▐▐</button>
+  <span class="aw-title">DE ENSAYO EN ENSAYO</span>
+</div>
+
+<div id="taskbar">
+  <button id="start-btn" onclick="toggleStartMenu(event)"><img draggable="false" src="images/img-002.png" style="height:20px;opacity:0.95;vertical-align:middle;"></button>
+  <div class="tb-sep"></div>
+  <div id="tb-wins"></div>
+  <div id="tray"><span id="clock">--:--</span></div>
+</div>
+
+<script src="js/script.js"></script>
+<div id="start-menu">
+  <div class="sm-item" ondblclick="openPodcastWin()" onclick="openPodcastWin()"><span class="sm-icon">🎙</span>Esto No Es Arte</div>
+  <div class="sm-item" ondblclick="openObrasWin()" onclick="openObrasWin()"><span class="sm-icon">🖼</span>Galería de Obras</div>
+  <div class="sm-sep"></div>
+  <div class="sm-item" ondblclick="openPenteract()" onclick="openPenteract()"><span class="sm-icon">⬡</span>Penteract 5D</div>
+  <div class="sm-sep"></div>
+  <div class="sm-item" ondblclick="openTarotWin()" onclick="openTarotWin()"><span class="sm-icon">🔮</span>Tarot</div>
+</div>
+</body>
+</html>const OBRAS=[
+  {src:"images/img-048.webp",title:"Figura arrodillada I",meta:"Lápiz sobre papel"},
+  {src:"images/img-049.webp",title:"Figura sentada",meta:"Lápiz sobre papel"},
+  {src:"images/img-050.webp",title:"Desnudo rojo I",meta:"Óleo sobre lienzo"},
+  {src:"images/img-051.webp",title:"Desnudo rojo II",meta:"Óleo sobre lienzo"},
+];
