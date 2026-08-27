@@ -83,9 +83,6 @@ function audioMute(m) {
 }
 
 function buildChain() {
-  // Tomar el MP3 del elemento <audio> embebido
-  const mp3src = document.getElementById('bgaudio').querySelector('source').src;
-  const MP3B64 = mp3src.split(',')[1];
 
   master = actx.createGain();
   master.gain.setValueAtTime(0, actx.currentTime);
@@ -154,28 +151,27 @@ function buildChain() {
   const rg = actx.createGain(); rg.gain.value = 0.03;
   rum.connect(rg); rg.connect(master); rum.start();
 
-  // Decode & play MP3 with wow/flutter
-  const bin = atob(MP3B64);
-  const ab2 = new ArrayBuffer(bin.length);
-  const ua = new Uint8Array(ab2);
-  for (let i = 0; i < bin.length; i++) ua[i] = bin.charCodeAt(i);
-  actx.decodeAudioData(ab2).then(buf => {
-    const bufSrc = actx.createBufferSource();
-    bufSrc.buffer = buf; bufSrc.loop = true;
-    const tg = actx.createGain(); tg.gain.value = 1;
-    bufSrc.connect(tg); tg.connect(reverbBus); tg.connect(wsDrive);
-    bufSrc.start(0); window._tg = tg;
-    // Wow & flutter pitch modulation
-    let wt = 0;
-    function wowTick() {
-      requestAnimationFrame(wowTick);
-      wt += 0.032;
-      bufSrc.playbackRate.value = 1 + Math.sin(wt) * 0.004 + Math.sin(wt * 14) * 0.001;
-    }
-    wowTick();
-    audioReady = true;
-    toggleBtn.textContent = '▐▐';
-  }).catch(e => console.warn("audio decode:", e));
+  // Cargar MP3 con fetch y reproducir via Web Audio (GitHub Pages / HTTPS)
+  fetch('audio/audio-001.mp3')
+    .then(r => r.arrayBuffer())
+    .then(ab => actx.decodeAudioData(ab))
+    .then(buf => {
+      const bufSrc = actx.createBufferSource();
+      bufSrc.buffer = buf; bufSrc.loop = true;
+      const tg = actx.createGain(); tg.gain.value = 1;
+      bufSrc.connect(tg); tg.connect(reverbBus); tg.connect(wsDrive);
+      bufSrc.start(0); window._tg = tg;
+      // Wow & flutter pitch modulation
+      let wt = 0;
+      function wowTick() {
+        requestAnimationFrame(wowTick);
+        wt += 0.032;
+        bufSrc.playbackRate.value = 1 + Math.sin(wt) * 0.004 + Math.sin(wt * 14) * 0.001;
+      }
+      wowTick();
+      audioReady = true;
+      toggleBtn.textContent = '▐▐';
+    }).catch(e => console.warn("audio decode:", e));
 }
 
 toggleBtn.addEventListener('click', () => {
@@ -1049,7 +1045,7 @@ function openTarotWin(){
       <div class="xp-addr-field">~/Tarot/tarot.html</div>
     </div>
     <div class="xp-body" style="flex:1;overflow:hidden;padding:0;">
-      <iframe src="tarot.html" style="width:100%;height:100%;border:none;display:block;"
+      <iframe src="../tarot/tarot.html" style="width:100%;height:100%;border:none;display:block;"
         allow="autoplay" sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
     <div class="xp-status">
